@@ -1,0 +1,100 @@
+<section class="h-fit m-auto mt-14 w-[430px]">
+  <article
+    class="flex gap-2 w-full"
+    [ngClass]="chooseSide() ? 'justify-end' : 'justify-start'"
+  >
+    <div
+      class="flex flex-col items-center gap-2"
+      [ngClass]="chooseSide() ? 'mt-4' : 'mt-5'"
+    >
+      <button-key *ngFor="let item of keyslist.slice(0, 3)">{{
+        item
+      }}</button-key>
+    </div>
+
+    <div
+      class="flex flex-col items-center gap-2"
+      [ngClass]="chooseSide() ? 'mt-2' : 'mt-5'"
+    >
+      <button-key *ngFor="let item of keyslist.slice(3, 6)">{{
+        item
+      }}</button-key>
+    </div>
+
+    <div
+      class="flex flex-col items-center gap-2"
+      [ngClass]="chooseSide() ? 'mt-0' : 'mt-2'"
+    >
+      <button-key #button *ngFor="let item of keyslist.slice(6, 9)">{{
+        item
+      }}</button-key>
+    </div>
+
+    <div
+      class="flex flex-col items-center gap-2"
+      [ngClass]="chooseSide() ? 'mt-2' : 'mt-0'"
+    >
+      <button-key *ngFor="let item of keyslist.slice(9, 12)">{{
+        item
+      }}</button-key>
+    </div>
+
+    <div
+      class="flex flex-col items-center gap-2"
+      [ngClass]="chooseSide() ? 'mt-5' : 'mt-2'"
+    >
+      <button-key *ngFor="let item of keyslist.slice(12, 15)">{{
+        item
+      }}</button-key>
+    </div>
+
+    <div
+      class="flex flex-col items-center gap-2"
+      [ngClass]="chooseSide() ? 'mt-5' : 'mt-4'"
+    >
+      <button-key *ngFor="let item of keyslist.slice(15, 18)">{{
+        item
+      }}</button-key>
+    </div>
+  </article>
+
+  <section
+    class="flex items-center gap-x-4 w-full justify-start"
+    *ngIf="chooseSide()"
+  >
+    <button-key
+      *ngFor="let item of keyslist.slice(18, 21); let i = index"
+      [ngStyle]="{
+        transform:
+          i === 1
+            ? 'rotate(' + '-10deg' + ')'
+            : i === 0
+              ? 'rotate(' + '-25deg' + ')'
+              : 'none',
+      }"
+      [isDoubleSize]="i == 0"
+    >
+      {{ item }}
+    </button-key>
+  </section>
+
+  <section
+    class="flex items-center gap-x-4 w-full justify-end"
+    *ngIf="!chooseSide()"
+  >
+    <button-key
+      *ngFor="let item of keyslist.slice(18, 21); let i = index"
+      [ngStyle]="{
+        transform:
+          i === 1
+            ? 'rotate(' + '10deg' + ')'
+            : i === 2
+              ? 'rotate(' + '25deg' + ')'
+              : 'none',
+      }"
+      [isDoubleSize]="i == 2"
+    >
+      {{ item }}
+    </button-key>
+  </section>
+</section>

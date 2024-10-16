@@ -1,0 +1,8 @@
+<button
+  class="bg-gray-300 rounded p-2 h-14 w-14 font-extra text-4xs shadow from-neutral-950"
+  [class.is-doubleSize]="isDoubleSize()"
+  [class.is-pressed]="isPressed()"
+  #button
+>
+  <ng-content />
+</button>

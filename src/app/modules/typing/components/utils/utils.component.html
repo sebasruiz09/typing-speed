@@ -1,0 +1,37 @@
+<section class="w-full p-5">
+  <article>
+    <div class="w-full flex justify-between gap-x-3">
+      <span class="flex justify-start gap-x-6 items-center">
+        <span
+          ><span class="text-gray-700">Velocidad:</span
+          ><span class="text-green-400"> 66,9wpm </span>
+          <span class="text-green-800 font-bold"> (↑ +18,6wpm) </span>
+        </span>
+
+        <span
+          ><span class="text-gray-700">Exactitud:</span
+          ><span class="text-green-400"> 90,83 % </span>
+          <span class="text-green-800 font-bold"> (↑ +0,11% ) </span>
+        </span>
+
+        <span
+          ><span class="text-gray-700">Puntuacion:</span
+          ><span class="text-green-400"> 1471 </span>
+          <span class="text-green-800 font-bold"> (↑ +141) </span>
+        </span>
+      </span>
+      <span>
+        <button (click)="genText()" type="button" class="mr-4">
+          <span class="pi pi-refresh text-xl"></span>
+        </button>
+
+        <button (click)="changeSound(!this.sound())" type="button">
+          <span
+            [ngClass]="sound() ? 'pi-volume-up' : 'pi-volume-off'"
+            class="pi text-xl"
+          ></span>
+        </button>
+      </span>
+    </div>
+  </article>
+</section>

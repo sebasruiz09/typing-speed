@@ -1,14 +1,14 @@
 .is-correct {
-  color: #60d788;
+  @apply text-green-500;
 }
 
 .is-wrong {
-  color: red;
+  @apply text-red-500;
 }
 
 .text-container {
-  display: inline-block; /* Permite que el contenedor se ajuste al contenido */
-  white-space: nowrap; /* Evita el salto de línea entre palabras */
-  overflow: hidden; /* Oculta el texto que sobrepasa el contenedor */
-  text-overflow: ellipsis; /* Opcional: añade puntos suspensivos si el texto es demasiado largo */
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

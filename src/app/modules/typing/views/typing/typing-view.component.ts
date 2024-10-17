@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  inject,
-  Signal,
-  viewChild,
-} from '@angular/core';
+import { Component, inject, Signal, viewChild } from '@angular/core';
 import { KeyboardComponent } from '@/modules/typing/components/keyboard/keyboard.component';
 import { KeyboardService } from '../../services/keyboard.service';
 import { PracticeComponent } from '../../components/practice/practice.component';
@@ -29,7 +22,7 @@ export default class TypingViewComponent {
   private readonly ignoreKeys: string[] = ['Shift', 'Control', 'Enter'];
 
   public handleKeyPress = (event: KeyboardEvent) => {
-    if (event.key == 'Enter') this.practice()?.init.set(true);
+    if (event.key == 'Enter') this.practice()?.OnInit();
 
     if (!this.ignoreKeys.includes(event.key))
       this.keyboardService.onKeyPress(event);

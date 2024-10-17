@@ -18,26 +18,20 @@ import { KeyboardService } from '../../services/keyboard.service';
   standalone: true,
   imports: [ButtonKeyComponent, CommonModule],
 })
-export class KeyboardComponent implements OnInit, OnDestroy {
+export class KeyboardComponent implements OnInit {
   public keyslist!: string[];
   public chooseSide = input<boolean>();
 
   private ButtonKeyComponent = viewChildren(ButtonKeyComponent);
-
-  private keySubscription!: Subscription;
 
   private keyboardService = inject(KeyboardService);
 
   ngOnInit(): void {
     this.keyslist = this.chooseSide() ? this.keysRight : this.keysLeft;
 
-    this.keySubscription = this.keyboardService.keyboard$.subscribe(
-      (event: KeyboardEvent) => this.handleKeyPress(event),
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.keySubscription.unsubscribe();
+    this.keyboardService.keyboardSubject
+      .asObservable()
+      .subscribe((event: KeyboardEvent) => this.handleKeyPress(event));
   }
 
   handleKeyPress(event: KeyboardEvent): void {

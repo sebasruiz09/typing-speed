@@ -1,24 +1,30 @@
-<section #textContainer tabindex="0" class="h-[125px] relative">
+<section #textContainer tabindex="0" class="h-[135px] relative w-full">
   <article
     *ngIf="!init()"
     class="absolute h-full w-full z-20 rounded backdrop-filter backdrop-blur-sm flex justify-center items-center"
   >
-    <button #button class="rounded p-2 bg-white" (click)="init.set(true)">
-      Haz clic o presiona Enter para iniciar
+    <button
+      #button
+      class="border-solid border-1 border-black py-2 px-4 bg-white font-mono shadow-md"
+      (click)="OnInit()"
+    >
+      Click or press enter to start
     </button>
   </article>
-  <article class="p-5">
+  <article class="py-5 px-1.5">
     <span *ngFor="let word of text.split('_'); let wIndex = index">
       <span class="inline-flex">
         <span
           *ngFor="let char of word.split(''); let cIndex = index"
-          class="font-mono text-[24px] font-normal"
+          class="font-mono text-[25.5px] font-normal"
         >
           <span
             [ngClass]="{
               'is-correct':
-                wIndex < index || (wIndex === index && cIndex < indexChar),
-              'is-wrong': wIndex === index && cIndex === indexChar && isWrong(),
+                wIndex < index() ||
+                (wIndex === index() && cIndex < indexChar()),
+              'is-wrong':
+                wIndex === index() && cIndex === indexChar() && isWrong(),
             }"
           >
             {{ char == " " ? "_" : char }}

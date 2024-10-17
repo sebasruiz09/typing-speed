@@ -1,37 +1,63 @@
-<section class="w-full p-5">
-  <article>
-    <div class="w-full flex justify-between gap-x-3">
-      <span class="flex justify-start gap-x-6 items-center">
+<section class="w-full">
+  <article class="w-full flex justify-between gap-x-3">
+    <span class="flex justify-start gap-x-6 items-center text-base font-mono">
+      <span
+        ><span class="text-gray-700">Speed:</span
+        ><span class="text-green-500"> {{ wpm().toFixed(2) }}wpm </span>
         <span
-          ><span class="text-gray-700">Velocidad:</span
-          ><span class="text-green-400"> 66,9wpm </span>
-          <span class="text-green-800 font-bold"> (↑ +18,6wpm) </span>
-        </span>
-
-        <span
-          ><span class="text-gray-700">Exactitud:</span
-          ><span class="text-green-400"> 90,83 % </span>
-          <span class="text-green-800 font-bold"> (↑ +0,11% ) </span>
-        </span>
-
-        <span
-          ><span class="text-gray-700">Puntuacion:</span
-          ><span class="text-green-400"> 1471 </span>
-          <span class="text-green-800 font-bold"> (↑ +141) </span>
+          *ngIf="wpmProgress()"
+          class="text-green-800 font-bold"
+          [ngClass]="wpmProgressStatus() ? 'text-green-500' : 'text-red-500'"
+        >
+          <i
+            [ngClass]="wpmProgressStatus() ? 'pi-arrow-up' : 'pi-arrow-down'"
+            class="pi"
+          ></i>
+          ({{ wpmProgress().toFixed(2) }}%)
         </span>
       </span>
-      <span>
-        <button (click)="genText()" type="button" class="mr-4">
-          <span class="pi pi-refresh text-xl"></span>
-        </button>
 
-        <button (click)="changeSound(!this.sound())" type="button">
-          <span
-            [ngClass]="sound() ? 'pi-volume-up' : 'pi-volume-off'"
-            class="pi text-xl"
-          ></span>
-        </button>
+      <span
+        ><span class="text-gray-700">Accuracy:</span
+        ><span class="text-green-500"> {{ accuracy().toFixed(2) }}% </span>
+        <span
+          *ngIf="AccuracyProgress()"
+          class="text-green-800 font-bold"
+          [ngClass]="
+            AccuracyProgressStatus() ? 'text-green-500' : 'text-red-500'
+          "
+        >
+          <i
+            [ngClass]="
+              AccuracyProgressStatus() ? 'pi-arrow-up' : 'pi-arrow-down'
+            "
+            class="pi"
+          ></i>
+          ({{ AccuracyProgress().toFixed(2) }}%)
+        </span>
       </span>
-    </div>
+
+      <!--<span-->
+      <!--><span class="text-gray-700">Puntuacion:</span-->
+      <!--><span class="text-green-400"> 1471 </span>-->
+      <!--<span class="text-green-800 font-bold"> (↑ +141) </span>-->
+      <!--</span>-->
+    </span>
+    <span>
+      <button (click)="pause()" type="button" class="mr-4">
+        <span class="pi pi-pause text-base"></span>
+      </button>
+
+      <button (click)="genText()" type="button" class="mr-4">
+        <span class="pi pi-refresh text-base"></span>
+      </button>
+
+      <button type="button">
+        <span
+          [ngClass]="sound() ? 'pi-volume-up' : 'pi-volume-off'"
+          class="pi text-xl"
+        ></span>
+      </button>
+    </span>
   </article>
 </section>

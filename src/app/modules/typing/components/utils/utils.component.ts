@@ -5,9 +5,11 @@ import {
   WritableSignal,
   inject,
   OnInit,
-  AfterViewInit,
+  viewChild,
+  ElementRef,
 } from '@angular/core';
 import { KeyboardService } from '../../services/keyboard.service';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'utils',
@@ -16,10 +18,9 @@ import { KeyboardService } from '../../services/keyboard.service';
   imports: [NgClass, NgIf],
   host: {},
 })
-export class UtilsComponent implements OnInit, AfterViewInit {
+export class UtilsComponent implements OnInit {
   private keyboardService: KeyboardService = inject(KeyboardService);
-
-  public sound: WritableSignal<boolean> = signal(true);
+  private storageService: StorageService = inject(StorageService);
 
   private lastWpm: WritableSignal<number> = signal(0);
   public wpm: WritableSignal<number> = signal(0);
@@ -33,6 +34,10 @@ export class UtilsComponent implements OnInit, AfterViewInit {
   public AccuracyProgress: WritableSignal<number> = signal(0);
   public AccuracyProgressStatus: WritableSignal<boolean> = signal(false);
 
+  public sound: WritableSignal<number> = signal(0);
+
+  private soundTag = viewChild<ElementRef<HTMLButtonElement>>('soundTag');
+
   ngOnInit(): void {
     this.keyboardService.Wpm.asObservable().subscribe((wpm: number) =>
       this.calculateProgressWpm(wpm),
@@ -41,14 +46,19 @@ export class UtilsComponent implements OnInit, AfterViewInit {
     this.keyboardService.accuracy
       .asObservable()
       .subscribe((accuracy: number) => this.calculateAccuracy(accuracy));
-  }
 
-  ngAfterViewInit(): void {
-    this.keyboardService.soundSubject.next(true);
+    this.sound.set(Number(this.storageService.getKey('sound')) ?? false);
   }
 
   public isBooleanNumber(progress: number): boolean {
     return Math.sign(progress) > 0;
+  }
+
+  public changeSound(status: number): void {
+    this.sound.set(status);
+    this.soundTag()?.nativeElement.blur();
+    this.storageService.setKey('sound', String(status));
+    this.keyboardService.soundSubject.next(status);
   }
 
   private calculateAccuracy(accuracy: number): void {
@@ -88,11 +98,6 @@ export class UtilsComponent implements OnInit, AfterViewInit {
 
     this.wpmProgressStatus.set(this.isBooleanNumber(this.wpmProgress()));
   }
-
-  //public changeSound(status: boolean): void {
-  //console.log(status);
-  //this.sound.set(status);
-  //}
 
   genText = () => this.keyboardService.textSubject.next();
   pause = () => this.keyboardService.pauseSubject.next();

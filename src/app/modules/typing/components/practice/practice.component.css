@@ -12,3 +12,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.indicator {
+  width: 2px; /* Ancho del indicador */
+  height: 25px; /* Altura del indicador */
+  background-color: black; /* Color del indicador */
+  position: absolute; /* Asegúrate de que sea absoluto */
+  top: 0; /* Ajusta según sea necesario */
+  left: 0; /* Ajusta según sea necesario */
+}

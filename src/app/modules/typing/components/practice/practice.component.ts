@@ -8,6 +8,7 @@ import {
 import { KeyboardService } from '../../services/keyboard.service';
 import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { faker } from '@faker-js/faker';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'practice',
@@ -21,6 +22,7 @@ export class PracticeComponent implements OnInit {
   private soundWrong: HTMLAudioElement = new Audio('sounds/wrong.mp3');
 
   private keyboardService: KeyboardService = inject(KeyboardService);
+  private storageService: StorageService = inject(StorageService);
 
   public InitialTime!: Date;
 
@@ -36,7 +38,7 @@ export class PracticeComponent implements OnInit {
   public indexChar: WritableSignal<number> = signal(0);
   private longIndex: WritableSignal<number> = signal(0);
 
-  private sound: WritableSignal<boolean> = signal(false);
+  private sound: WritableSignal<number> = signal(0);
 
   public text!: string;
 
@@ -47,10 +49,6 @@ export class PracticeComponent implements OnInit {
       .asObservable()
       .subscribe((key: KeyboardEvent) => this.controlKey(key));
 
-    this.keyboardService.soundSubject
-      .asObservable()
-      .subscribe((status: boolean) => this.sound.set(status));
-
     this.keyboardService.textSubject
       .asObservable()
       .subscribe(() => this.genText());
@@ -58,6 +56,10 @@ export class PracticeComponent implements OnInit {
     this.keyboardService.pauseSubject
       .asObservable()
       .subscribe(() => (this.init.set(false), this.genText()));
+
+    this.keyboardService.soundSubject
+      .asObservable()
+      .subscribe((state: number) => this.sound.set(state));
 
     this.genText();
   }
@@ -96,6 +98,20 @@ export class PracticeComponent implements OnInit {
     this.countChars.set(this.originalText.length);
   }
 
+  playAudio(state: boolean): void {
+    if (!this.sound()) return;
+
+    const soundToPlay = state ? this.soundSucess : this.soundWrong;
+
+    soundToPlay.playbackRate = 2;
+
+    if (!soundToPlay.paused) {
+      soundToPlay.pause(), (soundToPlay.currentTime = 0);
+    }
+
+    soundToPlay.play();
+  }
+
   controlKey(key: KeyboardEvent): void {
     if (!this.init()) return;
 
@@ -105,17 +121,17 @@ export class PracticeComponent implements OnInit {
     if (this.longIndex() == this.originalText.length - 1) this.onFinish();
 
     if (key.key === currentWord[this.indexChar()]) {
-      if (this.sound()) this.soundSucess.play();
       this.indexChar.update((i) => i + 1);
       this.isWrong.set(false);
+      this.playAudio(true);
 
       if (this.indexChar() >= currentWord.length)
         this.index.update((i) => i + 1), this.indexChar.set(0);
 
       this.longIndex.update((i) => i + 1);
     } else {
-      if (this.sound()) this.soundWrong.play();
       this.accuracy.update((i) => i + 1);
+      this.playAudio(false);
       this.isWrong.set(true);
     }
   }

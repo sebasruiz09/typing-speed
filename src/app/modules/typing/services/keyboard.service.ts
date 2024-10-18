@@ -7,11 +7,11 @@ import { Subject } from 'rxjs';
 export class KeyboardService {
   public keyboardSubject = new Subject<KeyboardEvent>();
 
-  public soundSubject = new Subject<boolean>();
-
   public textSubject = new Subject<void>();
 
   public pauseSubject = new Subject<void>();
+
+  public soundSubject = new Subject<number>();
 
   public Wpm = new Subject<number>();
 
